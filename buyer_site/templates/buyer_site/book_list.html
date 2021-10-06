@@ -1,0 +1,9 @@
+{% extends 'base.html'%} {% block Title %} Books|Home {%endblock%} {% block body %} {% for book in book_list %}
+<p>
+    Title:<a href="{% url 'book-details' book.id %}" alt="book cover" target="blank">
+    {{book.title}}</a
+  >
+</p>
+<img src="{{book.thumbnail}}" width="100" />
+<p>{{book.short_description}}</p>
+{% endfor %} {% endblock %}

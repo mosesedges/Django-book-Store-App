@@ -1,0 +1,47 @@
+{% extends 'base.html' %} {% block title %} Book Details {%endblock%} {% block body %}
+<div class="container">
+    <div class="two-heads">
+        <h2 class="title">{{book.title}}</h2>
+        <h3 class="author">
+            {{book.author}}
+        <h3>  
+    </div>
+    <div class="images">
+        <img src="{{book.thumbnail}}" class="detail-img" alt="book cover" width="200" />
+    </div>
+    <div class="des">
+        <p class="desc">{{book.long_description}}</p>
+    </div>
+    
+    <div class="three-ps">
+    {% if user.is_authenticated %}
+        <div class="form">
+            <form method="POST" action="{% url 'book-review' book.id %}">
+                {% csrf_token%}
+                <textarea name="review" id="review-box" placeholder="Write your review here" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    {% else %}
+            <p>
+            <a href="{% url 'login' %}?next={{request.path}}">Login</a> to write review 
+            </p>
+    {% endif %}
+        <p id="published"><span>Published:</span> {{book.year_of_publication}}</p>
+        <p id="pages"><span>Pages:</span> {{book.pages}}</p>
+        <p id="price"><span>Price:</span> ${{book.price}}</p>
+    </div>
+    <div class="review">
+        <ul>
+            {% for review in book.review_set.all %}
+            <li>
+                <p>{{review.user}}</p>
+                <p>{{review.created_at}}</p>
+                <p id="reviews">Reviews: {{review.body}}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
