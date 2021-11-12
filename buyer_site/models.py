@@ -29,20 +29,18 @@ class Category(models.Model):
 class Book(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     title = models.CharField(max_length=100)
-    short_description = models.CharField(max_length=250)
-    year_of_publication = models.IntegerField()
-    pages = models.IntegerField(null=False, )
-    price = models.FloatField(default=0.00)
-    long_description = models.TextField()
-    thumbnail = models.CharField(max_length=250, null=True)
-    posted_on = models.DateTimeField(default=timezone.now)
-    author = models.CharField(max_length=256, default='mary')
+    original_language = models.CharField(max_length=100, null=True)
+    published_on = models.IntegerField(null=True)
+    page_count = models.IntegerField(null=True)
+    image = models.ImageField(upload_to='images', null=True)
+    author = models.CharField(max_length=256, null=True)
+    description = models.TextField(null=True)
+    about = models.TextField(null=True)
 
 # the ordering in the meta class sets the ordering for most current first
     class Meta:
         verbose_name = ('Book')
         verbose_name_plural = ('Books')
-        ordering = ('-posted_on',)
 
     def __str__(self):
         return self.title

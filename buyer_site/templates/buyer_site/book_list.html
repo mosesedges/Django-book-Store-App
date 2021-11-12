@@ -1,9 +1,66 @@
-{% extends 'base.html'%} {% block Title %} Books|Home {%endblock%} {% block body %} {% for book in book_list %}
-<p>
-    Title:<a href="{% url 'book-details' book.id %}" alt="book cover" target="blank">
-    {{book.title}}</a
-  >
-</p>
-<img src="{{book.thumbnail}}" width="100" />
-<p>{{book.short_description}}</p>
-{% endfor %} {% endblock %}
+{% extends 'base.html'%} {% block Title %} Books|Home {%endblock%} {% block nav %}
+<div class="nav">
+  <h1 class="book-head">Novels</h1>
+</div>
+{% endblock %} {% block body %}
+<div class="overall">
+  <div class="search-container">
+    <form action="" method="GET">
+      <input
+        type="text"
+        class="search"
+        name="book_search"
+        placeholder="search"
+      />
+      <button type="submit" class="sbtn">GO</button>
+    </form>
+  </div>
+  {% if books %}
+  <div class="book-main">
+    {% for book in books %}
+    <div class="book-container">
+      {% if book.image %}
+      <div class="book-img">
+        <img src="{{book.image.url}}" />
+      </div>
+      {%endif%}
+      <div class="book-short">
+        <p>{{book.description}}</p>
+      </div>
+
+      <div class="book-title">
+        <p>
+          <a
+            href="{% url 'book-details' book.id %}"
+            alt="book cover"
+            target="blank"
+          >
+            {{book.title}}</a
+          >
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="pagination">
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+      <a href="?page=1">&laquo; first</a>
+      <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+      {% endif %}
+
+      <span class="current">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+      </span>
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+      {%endif %}
+    </span>
+  </div>
+  {% else %}
+  <p class="no-book">No book with this Title or Author</p>
+  {% endif%}
+</div>
+{% endblock %}
