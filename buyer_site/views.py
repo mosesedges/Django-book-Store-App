@@ -4,7 +4,7 @@ from .models import *
 from django.db.models import Q
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.models import User
-from .forms import UserRegisterForm
+# from .forms import UserRegisterForm
 from django.views.generic.edit import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
@@ -57,8 +57,8 @@ def review(request, id):
     return redirect(f"/buyer_site/{id}")
 
 
-class SignUpView(SuccessMessageMixin, CreateView):
-    template_name = 'users/register.html'
-    success_url = reverse_lazy('login')
-    form_class = UserRegisterForm
-    success_message = "Your profile was created successfully"
+# class SignUpView(SuccessMessageMixin, CreateView):
+#     template_name = 'users/register.html'
+#     success_url = reverse_lazy('login')
+#     form_class = UserRegisterForm
+#     success_message = "Your profile was created successfully"
