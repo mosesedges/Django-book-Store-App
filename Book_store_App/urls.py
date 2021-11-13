@@ -24,4 +24,4 @@ urlpatterns = [
     path('buyer_site/', include('buyer_site.urls')),
     path('login/', auth_views.LoginView.as_view(redirect_authenticated_user=True)),
     path('', include('django.contrib.auth.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  
