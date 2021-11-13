@@ -23,11 +23,10 @@
 
   <body>
     <nav>
-      {% block user %}
-      <div class="nav">
+      {% block nav %}{% endblock %} {% block user %}
+      <div>
         {% block detail %}{% endblock %} {% if user.is_authenticated %}
         <a href="{% url 'logout'%}" class="logout">Logout</a> {% else %}
-
         <a href="{% url 'login'%}" class="user-in">Login</a>
         {% endif %}
       </div>
@@ -36,5 +35,3 @@
     {% block body%} {% endblock %}
   </body>
 </html>
-
-

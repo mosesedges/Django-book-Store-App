@@ -1,4 +1,11 @@
-{% extends 'base.html' %} {% block title %} Book Details {%endblock%} {% block body %}
+{% extends 'base.html' %} {% block title %} Book Details {%endblock%} 
+{% block nav %}
+<div class="nav">
+<h1 class="book-head">{{book.title}}</h1>
+</div>
+{% endblock %}
+
+{% block body %}
 <div class="container">
     <div class="left-container">
         <div>
