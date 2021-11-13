@@ -1,24 +1,36 @@
 from django.shortcuts import render, get_list_or_404, redirect
 from django.http import HttpResponse
 from .models import *
+from django.db.models import Q
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.models import User
+from .forms import UserRegisterForm
+from django.views.generic.edit import CreateView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
 
 # bookData = open('buyer_site\EmployeeData.json').read()
 # data = json.loads(bookData)
 
 
 class BookListView(ListView):
+    paginate_by = 4
     model = Book
+    context_object_name = "books"
+
+    def get_queryset(self):
+        query = self.request.GET.get('book_search')
+        if query != '' and query is not None:
+            object_list = self.model.objects.filter(
+                Q(title__icontains=query) | Q(author__icontains=query))
+        else:
+            object_list = self.model.objects.all()
+        return object_list
+
     # template_name = "buyer_site/index.html"
     # context_object_name = 'data'
     # def get_queryset(self):
     #     return Book.objects.all()
-
-# def index(request):
-#     data = Book.objects.all()
-#     context = {'data': data}
-#     return render(request, 'buyer_site/index.html', context)
 
 
 # def book_author(request, author):
@@ -42,4 +54,11 @@ def review(request, id):
         body = request.POST['review']
         NewReviews = Review(body=body, book_id=id, user=request.user)
         NewReviews.save()
-    return redirect('/buyer_site')
+    return redirect(f"/buyer_site/{id}")
+
+
+class SignUpView(SuccessMessageMixin, CreateView):
+    template_name = 'users/register.html'
+    success_url = reverse_lazy('login')
+    form_class = UserRegisterForm
+    success_message = "Your profile was created successfully"

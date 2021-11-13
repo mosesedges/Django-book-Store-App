@@ -1,20 +1,38 @@
 {%load static%}
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href={%static 'buyer_site/styles.css'%} rel='stylesheet' />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,100&display=swap"
+      rel="stylesheet"
+    />
     <title>{% block title %}{% endblock %}</title>
-</head>
+  </head>
 
-<body>
-
-    {% block nav-title%} {% if user.is_authenticated %}
-    <a href="{% url 'logout'%}">Logout</a> {% else %}
-    <a href="{% url 'login'%}">Login</a> {% endif %} {%endblock%} {% block body %} {% endblock %}
-</body>
-
+  <body>
+    <nav>
+      {% block user %}
+      <div class="nav">
+        {% block detail %}{% endblock %} {% if user.is_authenticated %}
+        <a href="{% url 'logout'%}" class="logout">Logout</a> {% else %}
+        <a href="{% url 'register'%}" class="user-up">Sign up</a>
+        <a href="{% url 'login'%}" class="user-in">Login</a>
+        {% endif %}
+      </div>
+      {% endblock %}
+    </nav>
+    {% block body%} {% endblock %}
+  </body>
 </html>
